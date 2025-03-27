@@ -11,7 +11,9 @@ const SearchBar = () => {
         placeholder="Search Products..."
         className="w-full h-[35px] focus:outline-none p-2"
       />
-      <Button></Button>
+      <Button className="!rounded-full w-[37px] h-[37px] !text-black">
+        <FaSearch className="text-black" />
+      </Button>
     </div>
   );
 };
