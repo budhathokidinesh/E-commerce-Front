@@ -1,8 +1,9 @@
 import "./App.css";
-import Header from "./components/Header/Header";
+import Header from "./components/layouts/Header";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-  return <Header />;
+  return <AppRoutes />;
 }
 
 export default App;
