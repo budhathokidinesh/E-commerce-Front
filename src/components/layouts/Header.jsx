@@ -8,6 +8,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { IoIosGitCompare } from "react-icons/io";
 import { FaRegHeart } from "react-icons/fa";
 import Tooltip from "@mui/material/Tooltip";
+import Navigation from "../Navigation/Navigation";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -53,7 +54,7 @@ const Header = () => {
         </div>
       </div>
       {/* this is for header*/}
-      <div className="header">
+      <div className="header py-4 border-t-1 border-b-1">
         <div className="container flex items-center justify-between">
           <div className="col1 w-[15%]">
             <Link to={"/"}>
@@ -106,6 +107,8 @@ const Header = () => {
           </div>
         </div>
       </div>
+      {/* This is navigation part  */}
+      <Navigation />
     </header>
   );
 };
