@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
+import { Outlet } from "react-router-dom";
 
 const DefaultLayouts = () => {
   return (
@@ -8,9 +9,9 @@ const DefaultLayouts = () => {
       {/* Header  */}
       <Header />
       {/* Main body  */}
-      {/* <main className="main">
+      <main className="main">
         <Outlet />
-      </main> */}
+      </main>
 
       {/* Footer  */}
       <Footer />
