@@ -14,14 +14,21 @@ import ShoppingCheckout from "@/pages/shopping-view/ShoppingCheckout";
 import ShoppingAccount from "@/pages/shopping-view/ShoppingAccount";
 import CheckAuth from "@/components/common/check-auth";
 import UnauthPage from "@/pages/unauth-page/UnauthPage";
+import { useSelector } from "react-redux";
 
 const AppRoutes = () => {
-  const isAuthenticated = false;
-  const user = null;
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
   return (
     <Routes>
       {/* This is auth section  */}
-      <Route path="/" element={<DefaultLayouts />}>
+      <Route
+        path="/"
+        element={
+          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+            <DefaultLayouts />
+          </CheckAuth>
+        }
+      >
         <Route index element={<HomePage />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
