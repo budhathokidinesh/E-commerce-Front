@@ -3,10 +3,10 @@ import { IoMenu } from "react-icons/io5";
 import { Button } from "../ui/button";
 import { MdOutlineLogout } from "react-icons/md";
 
-const AdminHeader = () => {
+const AdminHeader = ({ setOpen }) => {
   return (
     <header className="flex items-center justify-between px-4 py-3 bg-background ">
-      <Button className="lg:hidden sm:block">
+      <Button onClick={() => setOpen(true)} className="lg:hidden sm:block">
         <IoMenu />
         <span className="sr-only">Toggle Menu</span>
       </Button>
