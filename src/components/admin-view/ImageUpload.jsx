@@ -6,12 +6,14 @@ import { FaFileImage } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { RxCross2 } from "react-icons/rx";
 import axios from "axios";
+import { Skeleton } from "../ui/skeleton";
 
 const ImageUpload = ({
   file,
   setFile,
   uploadedImageUrl,
   setUploadedImageUrl,
+  imageLoading,
   setImageLoading,
 }) => {
   const inputRef = useRef(null);
@@ -78,6 +80,8 @@ const ImageUpload = ({
             <RiUploadCloudFill className="w-10 h-10 text-muted-foreground mb-2 mt-4" />
             <span>Grag & drop or click to upload image</span>
           </Label>
+        ) : imageLoading ? (
+          <Skeleton className="h-10 bg-gray-100" />
         ) : (
           <div className="flex items-center justify-between">
             <div className="flex items-center">

@@ -7,8 +7,15 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { addProductFormElements } from "@/config/config";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import ImageUpload from "../../components/admin-view/ImageUpload";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addNewProduct,
+  fetchAllProducts,
+} from "@/store/admin/product-slice/productSlice";
+import { toast } from "sonner";
+import AdminProductTile from "@/components/admin-view/AdminProductTile";
 const initialFormData = {
   image: null,
   title: "",
@@ -27,9 +34,36 @@ const AdminProducts = () => {
   const [imageFile, setImageFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
-  const onSubmit = () => {};
-  console.log(formData, "formData");
+  const [currentEditedId, setCurrentEditedId] = useState(null);
 
+  const { productList } = useSelector((state) => state.adminProducts);
+  const dispatch = useDispatch();
+
+  //this is for handling submitting data
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(
+      addNewProduct({
+        ...formData,
+        image: uploadedImageUrl,
+      })
+    ).then((data) => {
+      console.log(data);
+      if (data?.payload?.success) {
+        dispatch(fetchAllProducts());
+        setOpenCreateProductsDialog(false);
+        setImageFile(null);
+        setFormData(initialFormData);
+        toast("Product has been added successfully.");
+      }
+    });
+  };
+  //this is for fetching all products from admin slice
+  useEffect(() => {
+    dispatch(fetchAllProducts());
+  }, [dispatch]);
+
+  console.log(productList, uploadedImageUrl, "productList");
   return (
     <Fragment>
       <div className="mb-5 w-full flex justify-end">
@@ -40,7 +74,11 @@ const AdminProducts = () => {
           Add new product
         </Button>
       </div>
-      <div className="grid gap-4 md: grid-cols-3 lg:grid-cols-4"></div>
+      <div className="grid gap-4 md: grid-cols-3 lg:grid-cols-4">
+        {productList && productList.length > 0
+          ? productList.map((i) => <AdminProductTile product={i} />)
+          : null}
+      </div>
       <Sheet
         open={openCreateProductsDialog}
         onOpenChange={() => {
@@ -59,6 +97,7 @@ const AdminProducts = () => {
             uploadedImageUrl={uploadedImageUrl}
             setUploadedImageUrl={setUploadedImageUrl}
             setImageLoading={setImageLoading}
+            imageLoading={imageLoading}
           />
           <div className="py-6">
             <CommonForm
