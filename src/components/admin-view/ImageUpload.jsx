@@ -1,16 +1,18 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { RiUploadCloudFill } from "react-icons/ri";
 import { FaFileImage } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { RxCross2 } from "react-icons/rx";
+import axios from "axios";
 
 const ImageUpload = ({
   file,
   setFile,
   uploadedImageUrl,
   setUploadedImageUrl,
+  setImageLoading,
 }) => {
   const inputRef = useRef(null);
   //this is for handling the image file
@@ -36,6 +38,23 @@ const ImageUpload = ({
       inputRef.current.value = "";
     }
   };
+  const uploadImageToCloudinary = async () => {
+    setImageLoading(true);
+    const data = new FormData();
+    data.append("my_file", file);
+    const response = await axios.post(
+      "http://localhost:8000/api/admin/products/upload-image",
+      data
+    );
+    console.log(response.data);
+    if (response?.data?.success) setUploadedImageUrl(response.data.result.url);
+    setImageLoading(false);
+  };
+
+  useEffect(() => {
+    if (file !== null) uploadImageToCloudinary();
+  }, [file]);
+
   return (
     <div className="w-full max-w-md mx-auto mt-4">
       <Label className="text-lg font-semibold mb-2 block">Upload Image</Label>
