@@ -12,6 +12,8 @@ import ImageUpload from "../../components/admin-view/ImageUpload";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNewProduct,
+  deleteProduct,
+  editProduct,
   fetchAllProducts,
 } from "@/store/admin/product-slice/productSlice";
 import { toast } from "sonner";
@@ -42,28 +44,57 @@ const AdminProducts = () => {
   //this is for handling submitting data
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(
-      addNewProduct({
-        ...formData,
-        image: uploadedImageUrl,
-      })
-    ).then((data) => {
-      console.log(data);
-      if (data?.payload?.success) {
-        dispatch(fetchAllProducts());
-        setOpenCreateProductsDialog(false);
-        setImageFile(null);
-        setFormData(initialFormData);
-        toast("Product has been added successfully.");
-      }
-    });
+
+    currentEditedId !== null
+      ? dispatch(
+          editProduct({
+            id: currentEditedId,
+            formData,
+          })
+        ).then((data) => {
+          if (data?.payload?.success) {
+            dispatch(fetchAllProducts());
+            setFormData(initialFormData);
+            setOpenCreateProductsDialog(false);
+            setCurrentEditedId(null);
+          }
+        })
+      : dispatch(
+          addNewProduct({
+            ...formData,
+            image: uploadedImageUrl,
+          })
+        ).then((data) => {
+          console.log(data);
+          if (data?.payload?.success) {
+            dispatch(fetchAllProducts());
+            setOpenCreateProductsDialog(false);
+            setImageFile(null);
+            setFormData(initialFormData);
+            toast("Product has been added successfully.");
+          }
+        });
+  };
+
+  //this is for disabling edit button unless all form is filled
+  const isFormValid = () => {
+    return Object.keys(formData)
+      .map((key) => formData[key] !== "")
+      .every((item) => item);
   };
   //this is for fetching all products from admin slice
   useEffect(() => {
     dispatch(fetchAllProducts());
   }, [dispatch]);
 
-  console.log(productList, uploadedImageUrl, "productList");
+  //this is for deleting the products
+  const handleDelete = (getCurrentProductId) => {
+    dispatch(deleteProduct(getCurrentProductId)).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(fetchAllProducts());
+      }
+    });
+  };
   return (
     <Fragment>
       <div className="mb-5 w-full flex justify-end">
@@ -76,19 +107,29 @@ const AdminProducts = () => {
       </div>
       <div className="grid gap-4 md: grid-cols-3 lg:grid-cols-4">
         {productList && productList.length > 0
-          ? productList.map((i) => <AdminProductTile product={i} />)
+          ? productList.map((i) => (
+              <AdminProductTile
+                setCurrentEditedId={setCurrentEditedId}
+                setOpenCreateProductsDialog={setOpenCreateProductsDialog}
+                setFormData={setFormData}
+                product={i}
+                handleDelete={handleDelete}
+              />
+            ))
           : null}
       </div>
       <Sheet
         open={openCreateProductsDialog}
         onOpenChange={() => {
           setOpenCreateProductsDialog(false);
+          setCurrentEditedId(null);
+          setFormData(initialFormData);
         }}
       >
         <SheetContent side="right" className="overflow-auto p-3">
           <SheetHeader>
             <SheetTitle className="text-2xl text-center">
-              Ad new Product
+              {currentEditedId !== null ? "Edit Product" : " Ad new Product"}
             </SheetTitle>
           </SheetHeader>
           <ImageUpload
@@ -98,14 +139,16 @@ const AdminProducts = () => {
             setUploadedImageUrl={setUploadedImageUrl}
             setImageLoading={setImageLoading}
             imageLoading={imageLoading}
+            isEditMode={currentEditedId !== null}
           />
           <div className="py-6">
             <CommonForm
               formData={formData}
               onSubmit={onSubmit}
               setFormData={setFormData}
-              buttonText="Add"
+              buttonText={currentEditedId !== null ? "Edit" : "Add"}
               formControls={addProductFormElements}
+              isBtnDisabled={!isFormValid()}
             />
           </div>
         </SheetContent>

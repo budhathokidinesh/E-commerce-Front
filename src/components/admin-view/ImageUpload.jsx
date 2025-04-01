@@ -15,6 +15,7 @@ const ImageUpload = ({
   setUploadedImageUrl,
   imageLoading,
   setImageLoading,
+  isEditMode,
 }) => {
   const inputRef = useRef(null);
   //this is for handling the image file
@@ -63,7 +64,9 @@ const ImageUpload = ({
       <div
         onDragOver={handleDragOver}
         onDrop={handleDrop}
-        className="border-2 border-dashed rounded-lg p-2"
+        className={`${
+          isEditMode ? "opacity-60" : ""
+        } border-2 border-dashed rounded-lg p-2`}
       >
         <Input
           id="image-upload"
@@ -71,11 +74,14 @@ const ImageUpload = ({
           className="hidden"
           ref={inputRef}
           onChange={handleImageFileCHange}
+          disabled={isEditMode}
         />
         {!file ? (
           <Label
             htmlFor="image-upload"
-            className="flex flex-col items-center h-32 cursor-pointer"
+            className={`${
+              isEditMode ? "cursor-not-allowed" : ""
+            } flex flex-col items-center h-32 cursor-pointer`}
           >
             <RiUploadCloudFill className="w-10 h-10 text-muted-foreground mb-2 mt-4" />
             <span>Grag & drop or click to upload image</span>
