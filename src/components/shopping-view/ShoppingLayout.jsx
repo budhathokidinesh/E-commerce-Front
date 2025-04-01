@@ -2,13 +2,15 @@ import React from "react";
 import Footer from "../layouts/Footer";
 import ShoppingHeader from "./ShoppingHeader";
 import { Outlet } from "react-router-dom";
+import Header from "../layouts/Header";
 
 const ShoppingLayout = () => {
   return (
     <div className="flex flex-col bg-white overflow-hidden ">
       {/* common Header  */}
       <ShoppingHeader />
-      <main className="flex flex-col w-full">
+
+      <main className="flex flex-col w-full h-screen">
         <Outlet />
       </main>
       <Footer />

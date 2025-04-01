@@ -9,7 +9,7 @@ const DefaultLayouts = () => {
       {/* Header  */}
       <Header />
       {/* Main body  */}
-      <main className="main">
+      <main className="main h-screen">
         <Outlet />
       </main>
 

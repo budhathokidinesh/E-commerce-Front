@@ -97,3 +97,51 @@ export const addProductFormElements = [
     type: "number",
   },
 ];
+export const shoppingViewHeaderMenuItems = [
+  {
+    id: "home",
+    label: "Home",
+    path: "/shop/home",
+  },
+  {
+    id: "electronics",
+    label: "Electronics",
+    path: "/shop/list",
+  },
+  {
+    id: "fashion",
+    label: "Fashion",
+    path: "/shop/list",
+  },
+  {
+    id: "beauty",
+    label: "Beauty",
+    path: "/shop/list",
+  },
+  {
+    id: "sports",
+    label: "Sports",
+    path: "/shop/list",
+  },
+];
+export const filterOptions = {
+  category: [
+    { id: "electronics", label: "Electronics" },
+    { id: "fashion", label: "Fashion" },
+    { id: "home", label: "Home & Furniture" },
+    { id: "beauty", label: "Beauty & Personal Care" },
+    { id: "sports", label: "Sports & Outdoors" },
+  ],
+  brand: [
+    { id: "nike", label: "Nike" },
+    { id: "adidas", label: "Adidas" },
+    { id: "puma", label: "Puma" },
+    { id: "levi", label: "Levi" },
+  ],
+};
+export const sortOptions = [
+  { id: "price-lowtohigh", label: "Price: Low to High" },
+  { id: "price-hightolow", label: "Price: High to low" },
+  { id: "title-atoz", label: "Title: A to Z" },
+  { id: "title-ztoa", label: "Title: Z to A" },
+];
