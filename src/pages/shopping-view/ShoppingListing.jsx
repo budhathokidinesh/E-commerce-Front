@@ -1,4 +1,6 @@
 import ProductFilter from "@/components/shopping-view/filter";
+import ProductDetailsDialog from "@/components/shopping-view/ProductDetails.jsx";
+
 import ShoppingProductTile from "@/components/shopping-view/ShoppingProductTile";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,7 +10,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { sortOptions } from "@/config/config";
-import { fetchAllShoppingProducts } from "@/store/shop/product-slice/shopProductSlice";
+import {
+  fetchAllShoppingProducts,
+  fetchProductDetails,
+} from "@/store/shop/product-slice/shopProductSlice";
 import { DropdownMenuRadioGroup } from "@radix-ui/react-dropdown-menu";
 import React, { useEffect, useState } from "react";
 import { RiArrowUpDownFill } from "react-icons/ri";
@@ -28,12 +33,14 @@ const createSearchParamsHelper = (filterParams) => {
 
 const ShoppingListing = () => {
   const dispatch = useDispatch();
-  const { productList } = useSelector((state) => state.shopProducts);
+  const { productList, productDetails } = useSelector(
+    (state) => state.shopProducts
+  );
   //this is for filtering products
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
   const handleSort = (value) => {
     setSort(value);
   };
@@ -71,11 +78,25 @@ const ShoppingListing = () => {
     }
   }, [filters]);
 
+  //this is for product details
+  const handleGetProductDetails = (getCurrentProductId) => {
+    console.log(getCurrentProductId);
+    dispatch(fetchProductDetails(getCurrentProductId));
+  };
+
   //fetch list of products
   useEffect(() => {
-    dispatch(fetchAllShoppingProducts());
-  }, [dispatch]);
-  console.log(filters, searchParams, "Filters");
+    if (filters !== null && sort !== null)
+      dispatch(
+        fetchAllShoppingProducts({ filterParams: filters, sortParams: sort })
+      );
+  }, [dispatch, sort, filters]);
+  //this is for opening dialog
+  useEffect(() => {
+    if (productDetails !== null) setOpenDetailsDialog(true);
+  }, [productDetails]);
+
+  console.log(productDetails);
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
       <ProductFilter filters={filters} handleFilter={handleFilter} />
@@ -115,11 +136,19 @@ const ShoppingListing = () => {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
           {productList && productList.length > 0
             ? productList.map((productItem) => (
-                <ShoppingProductTile product={productItem} />
+                <ShoppingProductTile
+                  product={productItem}
+                  handleGetProductDetails={handleGetProductDetails}
+                />
               ))
             : null}
         </div>
       </div>
+      <ProductDetailsDialog
+        open={openDetailsDialog}
+        setOpen={setOpenDetailsDialog}
+        productDetails={productDetails}
+      />
     </div>
   );
 };
