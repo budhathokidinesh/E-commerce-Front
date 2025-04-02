@@ -105,7 +105,7 @@ const AdminProducts = () => {
           Add new product
         </Button>
       </div>
-      <div className="grid gap-4 md: grid-cols-3 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
         {productList && productList.length > 0
           ? productList.map((i) => (
               <AdminProductTile

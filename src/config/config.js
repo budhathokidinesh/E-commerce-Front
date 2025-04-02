@@ -124,6 +124,19 @@ export const shoppingViewHeaderMenuItems = [
     path: "/shop/list",
   },
 ];
+export const categoryOptionsMap = {
+  electronics: "Electronics",
+  fashion: "Fashion",
+  home: "Home & Furniture",
+  beauty: "Beauty & Personal Care",
+  sports: "Sports & Outdoors",
+};
+export const brandOptionsMap = {
+  nike: "Nike",
+  adidas: "Adidas",
+  puma: "Puma",
+  levi: "Levi",
+};
 export const filterOptions = {
   category: [
     { id: "electronics", label: "Electronics" },

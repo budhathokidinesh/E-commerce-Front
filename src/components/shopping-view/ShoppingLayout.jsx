@@ -6,14 +6,14 @@ import Header from "../layouts/Header";
 
 const ShoppingLayout = () => {
   return (
-    <div className="flex flex-col bg-white overflow-hidden ">
+    <div className="flex flex-col min-h-screen w-full">
       {/* common Header  */}
       <ShoppingHeader />
 
       <main className="flex flex-col w-full h-screen">
         <Outlet />
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
