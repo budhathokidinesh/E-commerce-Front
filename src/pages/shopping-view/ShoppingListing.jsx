@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { sortOptions } from "@/config/config";
+import { addToCart, fetchCartItems } from "@/store/shop/cart-slice/cartSlice";
 import {
   fetchAllShoppingProducts,
   fetchProductDetails,
@@ -19,6 +20,7 @@ import React, { useEffect, useState } from "react";
 import { RiArrowUpDownFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
+import { toast } from "sonner";
 
 const createSearchParamsHelper = (filterParams) => {
   const queryParams = [];
@@ -37,6 +39,8 @@ const ShoppingListing = () => {
     (state) => state.shopProducts
   );
   //this is for filtering products
+  const { user } = useSelector((state) => state.auth);
+
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -71,6 +75,23 @@ const ShoppingListing = () => {
     setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
   }, []);
 
+  //this is for handling cart items
+  const handleAddtoCard = (getCurrentProductId) => {
+    console.log(getCurrentProductId);
+    dispatch(
+      addToCart({
+        userId: user?.id,
+        productId: getCurrentProductId,
+        quantity: 1,
+      })
+    ).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(fetchCartItems(user?.id));
+        toast("Product is added to cart");
+      }
+    });
+  };
+
   useEffect(() => {
     if (filters && Object.keys(filters).length > 0) {
       const createQueryString = createSearchParamsHelper(filters);
@@ -95,8 +116,7 @@ const ShoppingListing = () => {
   useEffect(() => {
     if (productDetails !== null) setOpenDetailsDialog(true);
   }, [productDetails]);
-
-  console.log(productDetails);
+  console.log(user);
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
       <ProductFilter filters={filters} handleFilter={handleFilter} />
@@ -139,6 +159,7 @@ const ShoppingListing = () => {
                 <ShoppingProductTile
                   product={productItem}
                   handleGetProductDetails={handleGetProductDetails}
+                  handleAddtoCard={handleAddtoCard}
                 />
               ))
             : null}

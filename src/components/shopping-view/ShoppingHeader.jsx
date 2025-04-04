@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
@@ -19,6 +19,8 @@ import {
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { logoutUser } from "@/store/auth-slice/authSlice";
+import UserCartWrapper from "./CartWrapper";
+import { fetchCartItems } from "@/store/shop/cart-slice/cartSlice";
 
 //this is for menu items
 const MenuItems = () => {
@@ -35,17 +37,37 @@ const MenuItems = () => {
 //header right content
 const HeaderRightContent = () => {
   const { user } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.shopCart);
+  const [openCartSheet, setOpenCartSheet] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  //this is for logout
   const handleLogout = () => {
     dispatch(logoutUser());
   };
+  useEffect(() => {
+    dispatch(fetchCartItems(user?.id));
+  }, [dispatch]);
+  console.log(cartItems, "Cartitems");
   return (
     <div className="flex flex-col items-center lg:items-center lg:flex-row gap-4">
-      <Button varient="outline" size="icon">
-        <IoCartOutline className="h-6 w-6" />
-        <span className="sr-only">User Cart</span>
-      </Button>
+      <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
+        <Button
+          onClick={() => setOpenCartSheet(true)}
+          varient="outline"
+          size="icon"
+        >
+          <IoCartOutline className="h-6 w-6" />
+          <span className="sr-only">User Cart</span>
+        </Button>
+        <UserCartWrapper
+          cartItems={
+            cartItems && cartItems.items && cartItems.items.length > 0
+              ? cartItems.items
+              : []
+          }
+        />
+      </Sheet>
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
