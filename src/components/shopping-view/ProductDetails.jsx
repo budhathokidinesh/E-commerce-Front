@@ -5,10 +5,36 @@ import { Separator } from "../ui/separator";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { FaStar } from "react-icons/fa";
 import { Input } from "../ui/input";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, fetchCartItems } from "@/store/shop/cart-slice/cartSlice";
+import { toast } from "sonner";
+import { setProductDetails } from "@/store/shop/product-slice/shopProductSlice";
 
 const ProductDetailsDialog = ({ open, setOpen, productDetails }) => {
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const handleAddtoCard = (getCurrentProductId) => {
+    console.log(getCurrentProductId);
+    dispatch(
+      addToCart({
+        userId: user?.id,
+        productId: getCurrentProductId,
+        quantity: 1,
+      })
+    ).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(fetchCartItems(user?.id));
+        toast("Product is added to cart");
+      }
+    });
+  };
+  const handleDialogClose = () => {
+    setOpen(false);
+    dispatch(setProductDetails());
+  };
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleDialogClose}>
       <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vh] sm:max-w-[80vw] lg:w-[70vw]">
         <div className="relative overflow-hidden rounded-lg">
           <img
@@ -53,7 +79,12 @@ const ProductDetailsDialog = ({ open, setOpen, productDetails }) => {
             <p className="text-muted-foreground">(4.5)</p>
           </div>
           <div className="mt-5 mb-5">
-            <Button className="w-full hover:cursor-pointer">Add to cart</Button>
+            <Button
+              className="w-full hover:cursor-pointer"
+              onClick={() => handleAddtoCard(productDetails?._id)}
+            >
+              Add to cart
+            </Button>
           </div>
           <Separator />
           <div className="max-h-[300px] overflow-auto">
