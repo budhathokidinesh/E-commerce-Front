@@ -21,15 +21,32 @@ import { Avatar, AvatarFallback } from "../ui/avatar";
 import { logoutUser } from "@/store/auth-slice/authSlice";
 import UserCartWrapper from "./CartWrapper";
 import { fetchCartItems } from "@/store/shop/cart-slice/cartSlice";
+import { Label } from "../ui/label";
 
 //this is for menu items
 const MenuItems = () => {
+  const navigate = useNavigate();
+  const handleNavigate = (getCurrentMenuItem) => {
+    sessionStorage.removeItem("filters");
+    const currentFilter =
+      getCurrentMenuItem.id !== "home"
+        ? {
+            category: [getCurrentMenuItem.id],
+          }
+        : null;
+    sessionStorage.setItem("filters", JSON.stringify(currentFilter));
+    navigate(getCurrentMenuItem.path);
+  };
   return (
     <nav className="flex flex-col mb-3 p-4 items-center mt-4 lg:mb-2 lg:items-center gap-6 lg:flex-row">
       {shoppingViewHeaderMenuItems.map((i) => (
-        <Link className="text-sm font-medium" key={i.id} to={i.path}>
+        <Label
+          onClick={() => handleNavigate(i)}
+          className="text-sm font-medium cursor-pointer hover:text-red-300"
+          key={i.id}
+        >
           {i.label}
-        </Link>
+        </Label>
       ))}
     </nav>
   );
