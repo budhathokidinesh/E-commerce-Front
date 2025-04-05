@@ -44,9 +44,10 @@ const UserCartItemsContent = ({ cartItems }) => {
     dispatch(
       deleteCartItems({ userId: user?.id, productId: getCartItem?.productId })
     ).then((data) => {
+      console.log("Delete response:", data);
       if (data?.payload?.success) {
         toast("Cart item is deleted successfully.");
-        dispatch(fetchCartItems());
+        dispatch(fetchCartItems(user?.id));
       }
     });
   };
