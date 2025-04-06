@@ -28,7 +28,8 @@ const Address = () => {
   //this is for submitiing the address
   const handleManageAddress = (e) => {
     e.preventDefault();
-    if (addressList.length >= 3) {
+    if (addressList.length >= 3 && currentEditedId === null) {
+      setFormData(initialAddressFormData);
       toast("You can add max 3 addresses. Thanks");
       return;
     }

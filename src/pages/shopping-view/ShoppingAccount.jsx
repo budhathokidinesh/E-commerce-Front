@@ -1,8 +1,9 @@
 import React from "react";
 import hanging from "../../assets/hanging.jpg";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Orders from "@/components/shopping-view/Orders";
+import Orders from "@/components/shopping-view/ShoppingOrders";
 import Address from "@/components/shopping-view/Address";
+import ShoppingOrders from "@/components/shopping-view/ShoppingOrders";
 
 const ShoppingAccount = () => {
   return (
@@ -18,11 +19,15 @@ const ShoppingAccount = () => {
         <div className="flex flex-col rounded border bg-background p-6 shadow">
           <Tabs defaultValue="orders">
             <TabsList>
-              <TabsTrigger value="orders">Orders</TabsTrigger>
-              <TabsTrigger value="address">Address</TabsTrigger>
+              <TabsTrigger value="orders" className="hover:cursor-pointer">
+                Orders
+              </TabsTrigger>
+              <TabsTrigger value="address" className="hover:cursor-pointer">
+                Address
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="orders">
-              <Orders />
+              <ShoppingOrders />
             </TabsContent>
             <TabsContent value="address">
               <Address />
