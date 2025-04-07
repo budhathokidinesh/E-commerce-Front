@@ -6,6 +6,7 @@ import UserCartItemsContent from "@/components/shopping-view/CartItemsContent";
 import { Button } from "@/components/ui/button";
 import { SlPaypal } from "react-icons/sl";
 import { createNewOrder } from "@/store/shop/order-slice/orderSlice";
+import { toast } from "sonner";
 
 const ShoppingCheckout = () => {
   const { cartItems } = useSelector((state) => state.shopCart);
@@ -31,6 +32,14 @@ const ShoppingCheckout = () => {
 
   //this is for initiate paypal payment
   const handleInitiatePaypalPayment = () => {
+    if (cartItems.length === 0) {
+      toast("Your cart is empty. PLease select some items to proceed. Thanks");
+      return;
+    }
+    if (currentSelectedAddress === null) {
+      toast("Address must be selected to proceed. Thanks");
+      return;
+    }
     const orderData = {
       userId: user?.id,
       cartId: cartItems?._id,
