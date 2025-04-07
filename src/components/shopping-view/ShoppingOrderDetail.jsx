@@ -40,6 +40,10 @@ const ShoppingOrderDetail = ({ orderDetails }) => {
                 className={`px-2 py-1 ${
                   orderDetails?.orderStatus === "confirmed"
                     ? "bg-green-600"
+                    : orderDetails?.orderStatus === "rejected"
+                    ? "bg-red-600"
+                    : orderDetails?.orderStatus === "pending"
+                    ? "bg-amber-400"
                     : ""
                 }`}
               >

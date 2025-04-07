@@ -6,11 +6,15 @@ import shopProductsSlice from "./shop/product-slice/shopProductSlice.js";
 import shoppingCartSlice from "./shop/cart-slice/cartSlice.js";
 import shoppingAddressSlice from "./shop/address-slice/addressSlice.js";
 import shoppingOrderSlice from "./shop/order-slice/orderSlice.js";
+import adminOrderSlice from "./admin/adminOrder-slice/adminOrderSlice.js";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
+
     adminProducts: AdminProductsSlice,
+    adminOrder: adminOrderSlice,
+
     shopProducts: shopProductsSlice,
     shopCart: shoppingCartSlice,
     shopAddress: shoppingAddressSlice,

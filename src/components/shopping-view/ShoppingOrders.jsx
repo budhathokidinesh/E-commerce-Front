@@ -73,6 +73,10 @@ const ShoppingOrders = () => {
                         className={`px-2 py-1 ${
                           orderItem?.orderStatus === "confirmed"
                             ? "bg-green-600"
+                            : orderItem?.orderStatus === "rejected"
+                            ? "bg-red-600"
+                            : orderItem?.orderStatus === "pending"
+                            ? "bg-amber-400"
                             : ""
                         }`}
                       >
@@ -91,26 +95,6 @@ const ShoppingOrders = () => {
                   </TableRow>
                 ))
               : null}
-            <TableRow>
-              <TableCell>12345</TableCell>
-              <TableCell>2025-03-06</TableCell>
-              <TableCell>Delevered</TableCell>
-              <TableCell>$140</TableCell>
-              <TableCell>
-                <Dialog
-                  open={openDetailDialog}
-                  onOpenChange={setOpenDetailDialog}
-                >
-                  <Button
-                    onClick={() => setOpenDetailDialog(true)}
-                    className="hover:cursor-pointer"
-                  >
-                    View Details
-                  </Button>
-                  <ShoppingOrderDetail />
-                </Dialog>
-              </TableCell>
-            </TableRow>
           </TableBody>
         </Table>
         <Dialog
