@@ -1,14 +1,34 @@
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import React from "react";
+import { capturePayment } from "@/store/shop/order-slice/orderSlice";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const PaypalReturn = () => {
   const dispatch = useDispatch();
-  const location = useLocation();
+
+  const navigate = useNavigate();
+
   const params = new URLSearchParams(location.search);
-  const paymentId = params.get("paymentId");
-  const payerId = params.get("payerId");
+
+  const token = params.get("token");
+  const payerId = params.get("PayerID");
+
+  useEffect(() => {
+    if (token && payerId) {
+      const orderId = JSON.parse(sessionStorage.getItem("currentOrderId"));
+      console.log("OrderID from session:", orderId);
+      dispatch(capturePayment({ token, payerId, orderId })).then((data) => {
+        if (data?.payload?.success) {
+          console.log(data, "Data");
+          sessionStorage.removeItem("currentOrderId");
+
+          navigate("/shop/payment-success");
+        }
+      });
+    }
+  }, [token, payerId, dispatch]);
+
   return (
     <Card>
       <CardHeader>
