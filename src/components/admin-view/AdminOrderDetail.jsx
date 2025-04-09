@@ -20,7 +20,7 @@ const AdminOrderDetail = ({ orderDetails }) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState(initialFormData);
   const { user } = useSelector((state) => state.auth);
-
+  console.log(orderDetails, "orderDetails");
   const updateHandleStatus = (e) => {
     e.preventDefault();
 

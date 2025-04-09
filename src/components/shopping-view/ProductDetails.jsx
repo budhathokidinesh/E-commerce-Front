@@ -12,9 +12,24 @@ import { setProductDetails } from "@/store/shop/product-slice/shopProductSlice";
 
 const ProductDetailsDialog = ({ open, setOpen, productDetails }) => {
   const { user } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.shopCart);
   const dispatch = useDispatch();
-  const handleAddtoCard = (getCurrentProductId) => {
-    console.log(getCurrentProductId);
+
+  //this is for handling the addToCart Items
+  const handleAddtoCard = (getCurrentProductId, getStock) => {
+    let getCartItems = cartItems.items || [];
+    if (getCartItems.length) {
+      const indexOfCurrentItem = getCartItems.findIndex(
+        (item) => item.productId === getCurrentProductId
+      );
+      if (indexOfCurrentItem > -1) {
+        const getQuantity = getCartItems[indexOfCurrentItem].quantity;
+        if (getQuantity + 1 > getStock) {
+          toast(`Only ${getQuantity} quantity can be added for this item.`);
+          return;
+        }
+      }
+    }
     dispatch(
       addToCart({
         userId: user?.id,
@@ -79,12 +94,20 @@ const ProductDetailsDialog = ({ open, setOpen, productDetails }) => {
             <p className="text-muted-foreground">(4.5)</p>
           </div>
           <div className="mt-5 mb-5">
-            <Button
-              className="w-full hover:cursor-pointer"
-              onClick={() => handleAddtoCard(productDetails?._id)}
-            >
-              Add to cart
-            </Button>
+            {productDetails?.stock === 0 ? (
+              <Button className="w-full opacity-60 cursor-not-allowed ">
+                Out Of Stock
+              </Button>
+            ) : (
+              <Button
+                onClick={() =>
+                  handleAddtoCard(productDetails?._id, productDetails?.stock)
+                }
+                className="w-full hover:cursor-pointer"
+              >
+                Add to cart
+              </Button>
+            )}
           </div>
           <Separator />
           <div className="max-h-[300px] overflow-auto">

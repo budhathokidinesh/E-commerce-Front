@@ -38,13 +38,15 @@ const ShoppingListing = () => {
   const { productList, productDetails } = useSelector(
     (state) => state.shopProducts
   );
-  //this is for filtering products
-  const { user } = useSelector((state) => state.auth);
 
+  const { user } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.shopCart);
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
+  const categorySearchParam = searchParams.get("category");
+  //this is for handling the sort
   const handleSort = (value) => {
     setSort(value);
   };
@@ -73,11 +75,23 @@ const ShoppingListing = () => {
   useEffect(() => {
     setSort("price-lowtohigh");
     setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
-  }, []);
+  }, [categorySearchParam]);
 
   //this is for handling cart items
-  const handleAddtoCard = (getCurrentProductId) => {
-    console.log(getCurrentProductId);
+  const handleAddtoCard = (getCurrentProductId, getStock) => {
+    let getCartItems = cartItems.items || [];
+    if (getCartItems.length) {
+      const indexOfCurrentItem = getCartItems.findIndex(
+        (item) => item.productId === getCurrentProductId
+      );
+      if (indexOfCurrentItem > -1) {
+        const getQuantity = getCartItems[indexOfCurrentItem].quantity;
+        if (getQuantity + 1 > getStock) {
+          toast(`Only ${getQuantity} quantity can be added for this item.`);
+          return;
+        }
+      }
+    }
     dispatch(
       addToCart({
         userId: user?.id,
@@ -116,7 +130,7 @@ const ShoppingListing = () => {
   useEffect(() => {
     if (productDetails !== null) setOpenDetailsDialog(true);
   }, [productDetails]);
-  console.log(user);
+  console.log(productList, "productList");
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
       <ProductFilter filters={filters} handleFilter={handleFilter} />

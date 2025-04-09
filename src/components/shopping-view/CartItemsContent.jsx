@@ -13,9 +13,31 @@ import { toast } from "sonner";
 
 const UserCartItemsContent = ({ cartItems }) => {
   const { user } = useSelector((state) => state.auth);
+  const { cartItem } = useSelector((state) => state.shopCart);
+  const { productList } = useSelector((state) => state.shopProducts);
   const dispatch = useDispatch();
   //this is for handling update quantity
   const handleUpdateQuantity = (getCartItem, typeOfAction) => {
+    if (typeOfAction == "plus") {
+      let getCartItems = cartItems.item || [];
+      if (getCartItems.length) {
+        const indexOfCurrentCartItem = getCartItems.findIndex(
+          (item) => item.productId === getCartItem.productId
+        );
+        const getCurrentProductIndex = productList.findIndex(
+          (product) => product._id === getCartItem?.productId
+        );
+        const getTotalStock = productList[getCurrentProductIndex].stock;
+        console.log(getCurrentProductIndex, "getCurrentProductIndex");
+        if (indexOfCurrentCartItem > -1) {
+          const getQuantity = getCartItems[indexOfCurrentCartItem].quantity;
+          if (getQuantity + 1 > getTotalStock) {
+            toast(`Only ${getQuantity} quantity can be added for this item.`);
+            return;
+          }
+        }
+      }
+    }
     dispatch(
       updateCartQuantity({
         userId: user?.id,

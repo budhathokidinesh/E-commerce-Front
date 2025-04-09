@@ -18,7 +18,15 @@ const ShoppingProductTile = ({
             alt={product.title}
             className="w-full h-[300px] object-cover rounded-t-lg "
           />
-          {product?.salePrice > 0 ? (
+          {product?.stock === 0 ? (
+            <Badge className="absolute top-2 left-2 bg-red-500 hover:bg-red-600">
+              Out of stock!
+            </Badge>
+          ) : product?.stock < 10 ? (
+            <Badge className="absolute top-2 left-2 bg-red-500 hover:bg-red-600">
+              {`Only ${product?.stock} items left.`}
+            </Badge>
+          ) : product?.salePrice > 0 ? (
             <Badge className="absolute top-2 left-2 bg-red-500 hover:bg-red-600">
               Sale
             </Badge>
@@ -51,12 +59,18 @@ const ShoppingProductTile = ({
         </CardContent>
       </div>
       <CardFooter>
-        <Button
-          onClick={() => handleAddtoCard(product?._id)}
-          className="w-full hover:cursor-pointer"
-        >
-          Add to cart
-        </Button>
+        {product?.stock === 0 ? (
+          <Button className="w-full opacity-60 cursor-not-allowed ">
+            Out Of Stock
+          </Button>
+        ) : (
+          <Button
+            onClick={() => handleAddtoCard(product?._id, product?.stock)}
+            className="w-full hover:cursor-pointer"
+          >
+            Add to cart
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

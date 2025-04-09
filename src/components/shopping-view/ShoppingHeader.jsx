@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { FaHome } from "react-icons/fa";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
@@ -26,16 +31,24 @@ import { Label } from "../ui/label";
 //this is for menu items
 const MenuItems = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // this is for handling navigation from menu items
   const handleNavigate = (getCurrentMenuItem) => {
     sessionStorage.removeItem("filters");
     const currentFilter =
-      getCurrentMenuItem.id !== "home"
+      getCurrentMenuItem.id !== "home" && getCurrentMenuItem.id !== "products"
         ? {
             category: [getCurrentMenuItem.id],
           }
         : null;
     sessionStorage.setItem("filters", JSON.stringify(currentFilter));
-    navigate(getCurrentMenuItem.path);
+    location.pathname.includes("list") && currentFilter !== null
+      ? setSearchParams(
+          new URLSearchParams(`?category=${getCurrentMenuItem.id}`)
+        )
+      : navigate(getCurrentMenuItem.path);
   };
   return (
     <nav className="flex flex-col mb-3 p-4 items-center mt-4 lg:mb-2 lg:items-center gap-6 lg:flex-row">
