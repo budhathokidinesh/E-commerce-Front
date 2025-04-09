@@ -9,10 +9,11 @@ const initialState = {
 //this is for adding reviews
 export const addReview = createAsyncThunk(
   "/products/addReview",
-  async (data) => {
-    const response = await axios.post("http://localhost:8000/api/shop/review", {
-      data,
-    });
+  async (formData) => {
+    const response = await axios.post(
+      "http://localhost:8000/api/shop/review/add",
+      formData
+    );
     return response.data;
   }
 );
@@ -21,7 +22,9 @@ export const addReview = createAsyncThunk(
 export const getReviews = createAsyncThunk(
   "/products/getReviews",
   async (id) => {
-    const response = await axios.post(`http://localhost:8000/api/shop/${id}`);
+    const response = await axios.get(
+      `http://localhost:8000/api/shop/review/${id}`
+    );
     return response.data;
   }
 );
