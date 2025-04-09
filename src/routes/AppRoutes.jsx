@@ -19,6 +19,7 @@ import { useEffect } from "react";
 import { checkAuth } from "@/store/auth-slice/authSlice";
 import PaypalReturn from "@/pages/shopping-view/PaypalReturn";
 import PaymentSuccess from "@/pages/shopping-view/PaymentSuccess";
+import SearchProducts from "@/pages/shopping-view/SearchProducts";
 
 const AppRoutes = () => {
   const { user, isAuthenticated, isLoading } = useSelector(
@@ -73,6 +74,7 @@ const AppRoutes = () => {
         <Route path="account" element={<ShoppingAccount />} />
         <Route path="paypal-return" element={<PaypalReturn />} />
         <Route path="payment-success" element={<PaymentSuccess />} />
+        <Route path="search" element={<SearchProducts />} />
       </Route>
       <Route path="/unauth-page" element={<UnauthPage />} />
       <Route path="*" element={<NotFound />} />
