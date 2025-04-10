@@ -26,6 +26,7 @@ import { useNavigate } from "react-router-dom";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice/cartSlice";
 import { toast } from "sonner";
 import ProductDetailsDialog from "@/components/shopping-view/ProductDetails";
+import { getFeatureImages } from "@/store/common/commonSlice";
 //this is category of products to render
 const categoriesWithIcons = [
   { id: "electronics", label: "Electronics", icon: <FcElectronics /> },
@@ -52,10 +53,11 @@ const ShoppingHome = () => {
   const { productList, productDetails } = useSelector(
     (state) => state.shopProducts
   );
+  const { featureImageList } = useSelector((state) => state.commonFeature);
   const { user } = useSelector((state) => state.auth);
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
 
-  const slides = [b1, b2, b3, b4];
+  // const slides = [b1, b2, b3, b4];
   const handleNavigateToListingPage = (getCurrentItem, section) => {
     sessionStorage.removeItem("filters");
     const currentFilter = {
@@ -67,10 +69,12 @@ const ShoppingHome = () => {
   //this is for changing picture itself
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
+      setCurrentSlide(
+        (prevSlide) => (prevSlide + 1) % featureImageList?.length
+      );
     }, 4000);
     return () => clearInterval(timer);
-  }, []);
+  }, [featureImageList]);
   //this is for dispatching the products
   useEffect(() => {
     dispatch(
@@ -106,24 +110,33 @@ const ShoppingHome = () => {
     if (productDetails !== null) setOpenDetailsDialog(true);
   }, [productDetails]);
   console.log(productList, "productList");
+
+  //this is for calling featureImageList
+  useEffect(() => {
+    dispatch(getFeatureImages());
+  }, [dispatch]);
   return (
     <div className="flex flex-col min-h-screen">
       <div className="relative w-full h-[600px] min-h-[600px] overflow-hidden">
-        {slides.map((slide, index) => (
-          <img
-            src={slide}
-            alt={index}
-            className={`${
-              index === currentSlide ? "opacity-100 z-10" : "opacity-10 z-0"
-            } absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`}
-          />
-        ))}
+        {featureImageList && featureImageList.length > 0
+          ? featureImageList.map((slide, index) => (
+              <img
+                src={slide?.image}
+                alt={index}
+                className={`${
+                  index === currentSlide ? "opacity-100 z-10" : "opacity-10 z-0"
+                } absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`}
+              />
+            ))
+          : null}
         <Button
           variant="outline"
           size="icon"
           onClick={() =>
             setCurrentSlide(
-              (prevSlide) => (prevSlide - 1 + slides.length) % slides.length
+              (prevSlide) =>
+                (prevSlide - 1 + featureImageList?.length) %
+                featureImageList?.length
             )
           }
           className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-transparent hover:cursor-pointer"
@@ -134,7 +147,9 @@ const ShoppingHome = () => {
           variant="outline"
           size="icon"
           onClick={() =>
-            setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length)
+            setCurrentSlide(
+              (prevSlide) => (prevSlide + 1) % featureImageList?.length
+            )
           }
           className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-transparent hover:cursor-pointer"
         >
@@ -187,7 +202,7 @@ const ShoppingHome = () => {
       </section>
       <section className="py-12">
         <h2 className="text-3xl font-bold text-center mb-8">Most Popular</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-2">
           {productList && productList.length > 0
             ? productList.map((productItem) => (
                 <ShoppingProductTile

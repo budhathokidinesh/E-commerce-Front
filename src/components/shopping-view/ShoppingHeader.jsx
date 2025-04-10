@@ -88,8 +88,12 @@ const HeaderRightContent = () => {
           onClick={() => setOpenCartSheet(true)}
           varient="outline"
           size="icon"
+          className="relative"
         >
           <IoCartOutline className="h-6 w-6" />
+          <span className="absolute top-[-2px] right-0">
+            {cartItems?.items?.length}
+          </span>
           <span className="sr-only">User Cart</span>
         </Button>
         <UserCartWrapper
