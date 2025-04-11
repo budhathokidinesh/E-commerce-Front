@@ -1,3 +1,4 @@
+const BASE_URL = import.meta.env.VITE_API_URL;
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -10,7 +11,7 @@ export const addNewAddress = createAsyncThunk(
   "/address/addNewAddress",
   async (formData) => {
     const response = await axios.post(
-      "http://localhost:8000/api/shop/address/add",
+      `${BASE_URL}/api/shop/address/add`,
       formData
     );
     return response.data;
@@ -20,7 +21,7 @@ export const fetchAllAddress = createAsyncThunk(
   "/address/fetchAllAddress",
   async (userId) => {
     const response = await axios.get(
-      `http://localhost:8000/api/shop/address/get/${userId}`
+      `${BASE_URL}/api/shop/address/get/${userId}`
     );
     return response.data;
   }
@@ -29,7 +30,7 @@ export const editAddress = createAsyncThunk(
   "/address/editAddress",
   async ({ userId, addressId, formData }) => {
     const response = await axios.put(
-      `http://localhost:8000/api/shop/address/update/${userId}/${addressId}`,
+      `${BASE_URL}/api/shop/address/update/${userId}/${addressId}`,
       formData
     );
     return response.data;
@@ -39,7 +40,7 @@ export const deleteAddress = createAsyncThunk(
   "/address/deleteAddress",
   async ({ userId, addressId }) => {
     const response = await axios.delete(
-      `http://localhost:8000/api/shop/address/delete/${userId}/${addressId}`
+      `${BASE_URL}/api/shop/address/delete/${userId}/${addressId}`
     );
     return response.data;
   }

@@ -1,3 +1,4 @@
+const BASE_URL = import.meta.env.VITE_API_URL;
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -11,7 +12,7 @@ export const addReview = createAsyncThunk(
   "/products/addReview",
   async (formData) => {
     const response = await axios.post(
-      "http://localhost:8000/api/shop/review/add",
+      `${BASE_URL}/api/shop/review/add`,
       formData
     );
     return response.data;
@@ -22,9 +23,7 @@ export const addReview = createAsyncThunk(
 export const getReviews = createAsyncThunk(
   "/products/getReviews",
   async (id) => {
-    const response = await axios.get(
-      `http://localhost:8000/api/shop/review/${id}`
-    );
+    const response = await axios.get(`${BASE_URL}/api/shop/review/${id}`);
     return response.data;
   }
 );
