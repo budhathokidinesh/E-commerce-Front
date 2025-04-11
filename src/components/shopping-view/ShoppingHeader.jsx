@@ -88,9 +88,9 @@ const HeaderRightContent = () => {
           onClick={() => setOpenCartSheet(true)}
           varient="outline"
           size="icon"
-          className="relative"
+          className="relative hover:cursor-pointer"
         >
-          <IoCartOutline className="h-6 w-6" />
+          <IoCartOutline className="h-6 w-6 " />
           <span className="absolute top-[-2px] right-0">
             {cartItems?.items?.length}
           </span>
@@ -108,7 +108,7 @@ const HeaderRightContent = () => {
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Avatar className="bg-black">
+          <Avatar className="bg-black hover:cursor-pointer">
             <AvatarFallback className="bg-black text-white font-extrabold">
               {user?.name[0].toUpperCase()}
             </AvatarFallback>
@@ -138,9 +138,12 @@ const ShoppingHeader = () => {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
-        <Link to="/shop/home" className="flex items-center gap-2">
-          <FaHome className="h-6 w-6 text-orange-400" />
-          <span className="font-bold text-orange-400">E-Commerce</span>
+        <Link
+          to={"/shop/home"}
+          className=" text-5xl font-extrabold text-yellow-500 drop-shadow-md hover:text-yellow-500 transition duration-300"
+        >
+          <span className="text-gray-800">D</span>NS
+          <span className="text-sm text-gray-500 ml-1 align-bottom">store</span>
         </Link>
         <Sheet>
           <SheetTrigger asChild>

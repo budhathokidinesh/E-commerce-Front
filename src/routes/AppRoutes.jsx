@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import DefaultLayouts from "../components/layouts/DefaultLayouts";
-import { HomePage, Login, Register } from "../pages/index";
+import { Login, Register } from "../pages/index";
 import AdminLayout from "@/components/admin-view/AdminLayout";
 import AdminDashboard from "@/pages/admin-view/Dashboard";
 import AdminProducts from "@/pages/admin-view/Products";
@@ -20,6 +20,11 @@ import { checkAuth } from "@/store/auth-slice/authSlice";
 import PaypalReturn from "@/pages/shopping-view/PaypalReturn";
 import PaymentSuccess from "@/pages/shopping-view/PaymentSuccess";
 import SearchProducts from "@/pages/shopping-view/SearchProducts";
+import HelpCenter from "@/pages/utils/HelpCenter";
+import OrderTracking from "@/pages/utils/OrderTracking";
+import AboutUs from "@/pages/utils/AboutUs";
+import FaqPage from "@/pages/utils/FaqPage";
+import ContactUs from "@/pages/utils/ContactUs";
 
 const AppRoutes = () => {
   const { user, isAuthenticated, isLoading } = useSelector(
@@ -32,6 +37,11 @@ const AppRoutes = () => {
   if (isLoading) return <div>Loading...</div>;
   return (
     <Routes>
+      <Route path="help-center" element={<HelpCenter />} />
+      <Route path="order-tracking" element={<OrderTracking />} />
+      <Route path="about" element={<AboutUs />} />
+      <Route path="faq" element={<FaqPage />} />
+      <Route path="contact" element={<ContactUs />} />
       {/* This is auth section  */}
       <Route
         path="/"
@@ -41,7 +51,6 @@ const AppRoutes = () => {
           </CheckAuth>
         }
       >
-        <Route index element={<HomePage />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
       </Route>

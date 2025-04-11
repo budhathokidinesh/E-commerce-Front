@@ -29,7 +29,7 @@ const Login = () => {
   return (
     <div className=" container grid grid-col-1 md:grid-cols-2">
       {/* left hand side image section  */}
-      <div className="hidden md:flex items-center justify-center bg-gray-100">
+      <div className="hidden md:flex items-center justify-center bg-gray-100 mt-4">
         <img
           src={hanging}
           alt=""

@@ -1,8 +1,8 @@
 import React from "react";
-import Footer from "../layouts/Footer";
+
 import ShoppingHeader from "./ShoppingHeader";
 import { Outlet } from "react-router-dom";
-import Header from "../layouts/Header";
+import Footer from "../layouts/Footer";
 
 const ShoppingLayout = () => {
   return (
@@ -10,10 +10,10 @@ const ShoppingLayout = () => {
       {/* common Header  */}
       <ShoppingHeader />
 
-      <main className="flex flex-col w-full h-screen">
+      <main className="flex flex-col w-full flex-1">
         <Outlet />
       </main>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };
