@@ -5,11 +5,11 @@ import { Outlet } from "react-router-dom";
 
 const DefaultLayouts = () => {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       {/* Header  */}
       <Header />
       {/* Main body  */}
-      <main className="main h-screen">
+      <main className="flex-1">
         <Outlet />
       </main>
 

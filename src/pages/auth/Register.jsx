@@ -36,15 +36,6 @@ const Register = () => {
         <h1 className="text-3xl font-bold tracking-tight text-foreground">
           Sign Up Now
         </h1>
-        <p className="mt-2">
-          Already have an account &nbsp;
-          <Link
-            className="font-medium text-primary hover:underline hover:text-blue-700"
-            to="/login"
-          >
-            Login
-          </Link>
-        </p>
       </div>
       <CommonForm
         formControls={registerFormControls}
@@ -53,6 +44,15 @@ const Register = () => {
         setFormData={setFormData}
         onSubmit={onSubmit}
       />
+      <p className="mt-2">
+        Already have an account? &nbsp;
+        <Link
+          className=" link font-medium hover:underline  text-blue-900"
+          to="/login"
+        >
+          Login🚀
+        </Link>
+      </p>
     </div>
   );
 };

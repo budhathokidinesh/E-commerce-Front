@@ -1,23 +1,4 @@
 import { Link } from "react-router-dom";
-import db from "../../assets/db-store.png";
-import SearchBar from "../SearchBar/SearchBar";
-import Badge from "@mui/material/Badge";
-import { styled } from "@mui/material/styles";
-import IconButton from "@mui/material/IconButton";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { IoIosGitCompare } from "react-icons/io";
-import { FaRegHeart } from "react-icons/fa";
-import Tooltip from "@mui/material/Tooltip";
-import Navigation from "../Navigation/Navigation";
-
-const StyledBadge = styled(Badge)(({ theme }) => ({
-  "& .MuiBadge-badge": {
-    right: -3,
-    top: 13,
-    border: `2px solid ${(theme.vars ?? theme).palette.background.paper}`,
-    padding: "0 4px",
-  },
-}));
 const Header = () => {
   return (
     <header>
@@ -26,8 +7,8 @@ const Header = () => {
         <div className="container">
           <div className="flex items-center justify-between">
             <div className="col1 w-[50%">
-              <p className="text-[14px font-medium">
-                Get up to 50% off new season styles, limited time only.
+              <p className="text-[14px] font-medium text-blue-500">
+                Get up to 50% off new season styles, limited time only.🚀
               </p>
             </div>
             <div className="col2 flex items-center justify-end">
@@ -35,7 +16,7 @@ const Header = () => {
                 <li>
                   <Link
                     to="/help-center"
-                    className="text-[15px] link font-medium transition"
+                    className="text-[15px] link font-medium transition text-blue-500"
                   >
                     Help Center
                   </Link>
@@ -43,7 +24,7 @@ const Header = () => {
                 <li>
                   <Link
                     to="/order-tracking"
-                    className="text-[15px] link font-medium transition"
+                    className="text-[15px] link font-medium transition text-blue-500"
                   >
                     Order Tracking
                   </Link>
@@ -56,59 +37,40 @@ const Header = () => {
       {/* this is for header*/}
       <div className="header py-4 border-t-1 border-b-1">
         <div className="container flex items-center justify-between">
-          <div className="col1 w-[15%]">
-            <Link to={"/"}>
-              {" "}
-              <img src={db} alt="" className="h-25 w-25" />
+          <div>
+            <Link
+              to={"/"}
+              className="justify-center text-4xl font-bold text-yellow-500"
+            >
+              DS
             </Link>
           </div>
-          <div className="col2 w-[50%]">
-            <SearchBar />
+          <div>
+            <p className="text-md text-gray-900 justify-center font-bold">
+              Shop the freshest styles curated just for you. To see exclusive
+              products, please Log In now🚀
+            </p>
           </div>
-          <div className="col3 w-[35%] flex items-center">
+          <div className="flex items-center">
             <ul className="flex items-center justify-end gap-3 p-4 w-full">
               <li>
-                <Link to="/login" className="link transition font-medium">
+                <Link
+                  to="/login"
+                  className="link transition font-bold text-blue-900"
+                >
                   Log In
-                </Link>{" "}
-                |{" "}
-                <Link to="/register" className="link transition font-medium">
-                  Register
                 </Link>
-              </li>
-              <li>
-                <Tooltip title="Compare">
-                  <IconButton aria-label="cart">
-                    <StyledBadge badgeContent={4} color="secondary">
-                      <IoIosGitCompare />
-                    </StyledBadge>
-                  </IconButton>
-                </Tooltip>
-              </li>
-              <li>
-                <Tooltip title="Wish List">
-                  <IconButton aria-label="cart">
-                    <StyledBadge badgeContent={4} color="secondary">
-                      <FaRegHeart />
-                    </StyledBadge>
-                  </IconButton>
-                </Tooltip>
-              </li>
-              <li>
-                <Tooltip title="Cart">
-                  <IconButton aria-label="cart">
-                    <StyledBadge badgeContent={4} color="secondary">
-                      <ShoppingCartIcon />
-                    </StyledBadge>
-                  </IconButton>
-                </Tooltip>
+                <Link
+                  to="/register"
+                  className="link transition font-bold text-blue-900"
+                >
+                  / Register
+                </Link>
               </li>
             </ul>
           </div>
         </div>
       </div>
-      {/* This is navigation part  */}
-      <Navigation />
     </header>
   );
 };
