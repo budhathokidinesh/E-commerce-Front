@@ -1,6 +1,7 @@
 # 🛍️ DNS Store - Modern E-Commerce Frontend
 
 ![Project Banner](./public/b.png)
+[dineshstore.netlify.app](https://dineshstore.netlify.app)
 
 A fully responsive e-commerce frontend built with React, Tailwind CSS, and React Router. Featuring product browsing, cart management, and a sleek user interface.
 
@@ -167,6 +168,7 @@ This project is deployed on Netlify.
 - Make sure the environment variable VITE_API_URL is set in Netlify.
 
 - Backend is deployed on Render: https://e-commerce-back-a9pp.onrender.com
+- - Backend code is available here: https://github.com/budhathokidinesh/E-commerce-Back.git
 
 ## 📄 License
 
