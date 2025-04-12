@@ -8,10 +8,10 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white py-10 mt-10 ">
-      <div className="container mx-auto grid md:grid-cols-4 sm:grid-cols-2 gap-6 px-6 ">
+    <footer className="bg-gray-900 text-white py-10 mt-10 w-full">
+      <div className="container mx-auto grid md:grid-cols-4 sm:grid-cols-2 gap-6 px-6">
         {/* Logo / Store Name */}
-        <div>
+        <div className="justify-center items-center text-center">
           <h2 className="text-2xl font-bold text-yellow-400 mb-3">DNS Store</h2>
           <p className="text-sm text-gray-400">
             Your one-stop destination for the best deals and top quality
@@ -20,7 +20,7 @@ const Footer = () => {
         </div>
 
         {/* Quick Links */}
-        <div>
+        <div className="justify-center items-center text-center">
           <h3 className="text-lg font-semibold mb-2">Quick Links</h3>
           <ul className="space-y-1 text-sm text-gray-300">
             <li>
@@ -47,7 +47,7 @@ const Footer = () => {
         </div>
 
         {/* Customer Service */}
-        <div>
+        <div className="justify-center items-center text-center">
           <h3 className="text-lg font-semibold mb-2">Customer Service</h3>
           <ul className="space-y-1 text-sm text-gray-300">
             <li>Returns & Exchanges</li>
@@ -58,15 +58,15 @@ const Footer = () => {
         </div>
 
         {/* Social & Payment */}
-        <div>
+        <div className="justify-center items-center text-center">
           <h3 className="text-lg font-semibold mb-2">Connect</h3>
-          <div className="flex space-x-4 mb-4">
+          <div className="flex space-x-4 mb-4 justify-center">
             <FaFacebookF className="hover:text-yellow-400 cursor-pointer" />
             <FaInstagram className="hover:text-yellow-400 cursor-pointer" />
             <FaTwitter className="hover:text-yellow-400 cursor-pointer" />
           </div>
           <h3 className="text-lg font-semibold mb-2">We Accept</h3>
-          <div className="flex space-x-4 text-2xl items-center">
+          <div className="flex space-x-4 text-2xl justify-center">
             <FaCcPaypal />
           </div>
         </div>
